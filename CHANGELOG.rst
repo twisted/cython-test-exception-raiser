@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Compile 3.10 wheels https://twistedmatrix.com/trac/ticket/10250
+- 1.0.1 was skipped to keep in sync with twisted-iocpsupport
 
 
 1.0.0 (2020-10-13)
