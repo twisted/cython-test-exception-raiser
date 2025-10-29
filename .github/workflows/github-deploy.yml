@@ -28,13 +28,17 @@ jobs:
         with:
           python-version: '3.14'
 
-      - name: Install cibuildwheel
+      - name: Install deps
         run: |
-          python -m pip install cibuildwheel==3.2.1
+          python -m pip install cibuildwheel==3.2.1 abi3audit 0.0.22
 
       - name: Build wheels
         run: |
           python -m cibuildwheel --output-dir wheelhouse
+
+      - name: Audit ABI3 wheels
+        run: |
+          abi3audit -vsS wheelhouse/*abi3*.whl
 
       - uses: actions/upload-artifact@v4
         with:
