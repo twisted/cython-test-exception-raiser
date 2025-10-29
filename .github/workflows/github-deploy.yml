@@ -37,12 +37,16 @@ jobs:
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
+      - name: Check files
+        run: ls -al wheelhouse/
+
       - name: Audit ABI3 wheels
         run: |
           abi3audit -vsS wheelhouse/*abi3*.whl
 
       - uses: actions/upload-artifact@v4
         with:
+          name: artifact-wheels
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -65,6 +69,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: artifact-sdist
           path: dist/*.tar.gz
 
   upload_pypi:
