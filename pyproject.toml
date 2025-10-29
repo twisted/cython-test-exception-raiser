@@ -5,3 +5,8 @@ requires = [
     "cython >= 0.29.21",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+enable = ["all"]
+# Not sure why it was failing on PyPy 3.11.
+build = "cp38-* pp310-*"

@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.0.3 (unreleased)
-------------------
 
-- Nothing changed yet.
+2025.10.0 (2025-10-29)
+----------------------
+
+- Enable wheels for Python 3.14.
 
 
 1.0.2 (2021-08-10)
