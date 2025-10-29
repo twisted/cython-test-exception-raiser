@@ -12,6 +12,13 @@ on:
     tags: [ "**" ]
   pull_request:
 
+
+defaults:
+  run:
+    # Use bash on Windows for consistency.
+    shell: bash
+
+
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -46,7 +53,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: artifact-wheels
+          name: artifact-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
   build_sdist:

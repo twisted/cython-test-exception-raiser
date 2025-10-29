@@ -7,6 +7,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
+# We enable all builds and then cherry-pick the platforms via the `build`
+# configuration below.
 enable = ["all"]
 # See https://cibuildwheel.pypa.io/en/stable/options/#build-skip
 # Not sure why it was failing on PyPy 3.11.
