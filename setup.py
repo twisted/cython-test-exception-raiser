@@ -1,6 +1,10 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 
+# ABI3 example from https://github.com/joerick/python-abi3-package-sample
+# Cython docs at
+# https://docs.cython.org/en/latest/src/userguide/limited_api.html
+#
 # Py_LIMITED_API values:
 #
 # 0x03080000 - Python 3.8 - the minimum version that Cython supports.

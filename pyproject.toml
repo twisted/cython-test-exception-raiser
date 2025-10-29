@@ -8,5 +8,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
 enable = ["all"]
+# See https://cibuildwheel.pypa.io/en/stable/options/#build-skip
 # Not sure why it was failing on PyPy 3.11.
 build = "cp38-* pp310-*"
