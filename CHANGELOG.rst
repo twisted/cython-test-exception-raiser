@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-2025.10.0 (2025-10-29)
+2025.11.0 (2025-11-02)
 ----------------------
 
-- Enable wheels for Python 3.14.
+- Enable ABI3 binary wheels for generic Python support.
 
 
 1.0.2 (2021-08-10)
