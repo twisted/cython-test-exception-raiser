@@ -3,45 +3,66 @@ on:
   push:
     branches:
       - default
-    tags:
-      - v*
+    # To simplify the release process, the publishing is triggered on tag.
+    # We should make sure to only push tags for new releases.
+    # If we start using tags for non-release purposes,
+    # this needs to be updated.
+    #
+    # We need to explicitly configure an expression that matches anything.
+    tags: [ "**" ]
   pull_request:
+
+
+defaults:
+  run:
+    # Use bash on Windows for consistency.
+    shell: bash
+
 
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         name: Install Python
         with:
-          python-version: '3.9'
+          python-version: '3.14'
 
-      - name: Install cibuildwheel
+      - name: Install deps
         run: |
-          python -m pip install cibuildwheel==2.1.1
+          python -m pip install cibuildwheel==3.2.1 abi3audit==0.0.22
 
       - name: Build wheels
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
-      - uses: actions/upload-artifact@v2
+      - name: Check files
+        run: ls -al wheelhouse/
+
+      - name: Audit ABI3 wheels
+        run: |
+          abi3audit -vsS wheelhouse/*abi3*.whl
+
+      - uses: actions/upload-artifact@v4
         with:
+          name: artifact-wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         name: Install Python
         with:
           python-version: '3.9'
@@ -53,25 +74,28 @@ jobs:
       - name: Build sdist
         run: python -m build --sdist
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
+          name: artifact-sdist
           path: dist/*.tar.gz
 
   upload_pypi:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
-    # upload to PyPI on every tag starting with 'v'
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
-    # alternatively, to publish when a GitHub Release is created, use the following rule:
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
-          name: artifact
+          pattern: artifact-*
+          merge-multiple: true
           path: dist
 
-      - uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
-          # To test: repository_url: https://test.pypi.org/legacy/
+      - name: Check files
+        run: ls -al dist/
+
+      - name: Publish to PyPI - on tag
+        # Skip upload to PyPI if we don't have a tag
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: pypa/gh-action-pypi-publish@release/v1
