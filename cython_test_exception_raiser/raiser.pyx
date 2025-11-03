@@ -10,7 +10,7 @@ See L{twisted.test.test_failure.test_failureConstructionWithMungedStackSucceeds}
 
 class RaiserException(Exception):
     """
-    A speficic exception only used to be identified in tests.
+    A specific exception only used to be identified in tests.
     """
 
 
