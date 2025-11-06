@@ -1,3 +1,6 @@
+import sys
+import sysconfig
+
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 
@@ -11,17 +14,27 @@ from Cython.Build import cythonize
 # 0x030B0000 - Python 3.11 - support typed memoryviews.
 # 0x030C0000 - Python 3.12 - support vectorcall (performance improvement).
 
+py_limited_api_kwargs = {}
+if sys.implementation.name == "cpython" and not sysconfig.get_config_var(
+    "Py_GIL_DISABLED"
+):
+    py_limited_api_kwargs = {
+        "define_macros": [
+            # For now we are at python 3.8 as we still support 3.10.
+            ("Py_LIMITED_API", 0x03080000),
+        ],
+        "py_limited_api": True,
+    }
+
 setup(
-    ext_modules=cythonize([
-        Extension(
-            name="raiser",
-            sources=["cython_test_exception_raiser/raiser.pyx"],
-            define_macros=[
-                # For now we are at python 3.8 as we still support 3.10.
-                ("Py_LIMITED_API", 0x03080000),
-            ],
-            py_limited_api=True
-        ),
-    ]),
+    ext_modules=cythonize(
+        [
+            Extension(
+                name="raiser",
+                sources=["cython_test_exception_raiser/raiser.pyx"],
+                **py_limited_api_kwargs
+            ),
+        ]
+    ),
     options={"bdist_wheel": {"py_limited_api": "cp38"}},
 )
