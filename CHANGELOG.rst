@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+Unreleased
+----------
+
+- Enable thread-free wheels for Python 3.13 and 3.14.
+- Enable PYPY 3.11 wheels.
+
+
 2025.11.0 (2025-11-02)
 ----------------------
 
