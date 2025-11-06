@@ -15,6 +15,7 @@ from Cython.Build import cythonize
 # 0x030C0000 - Python 3.12 - support vectorcall (performance improvement).
 
 py_limited_api_kwargs = {}
+bdist_wheel_kwargs = {}
 if sys.implementation.name == "cpython" and not sysconfig.get_config_var(
     "Py_GIL_DISABLED"
 ):
@@ -25,6 +26,7 @@ if sys.implementation.name == "cpython" and not sysconfig.get_config_var(
         ],
         "py_limited_api": True,
     }
+    bdist_wheel_kwargs = {"py_limited_api": "cp38"}
 
 setup(
     ext_modules=cythonize(
@@ -36,5 +38,5 @@ setup(
             ),
         ]
     ),
-    options={"bdist_wheel": {"py_limited_api": "cp38"}},
+    options={"bdist_wheel": {**bdist_wheel_kwargs}},
 )
