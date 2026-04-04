@@ -5,7 +5,8 @@ Changelog
 Unreleased
 ----------
 
-- No changes yet.
+- Fix extension to be installed inside ``cython_test_exception_raiser``
+  package again.
 
 
 2025.11.1 (2025-11-06)
