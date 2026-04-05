@@ -30,8 +30,11 @@ Pre-release steps
 
 * Make sure that a ticket is created for twisted/twisted that covers
   the new release and explain why we need the new release.
-* Create a new branch with a name that starts with the twisted/twisted
-  issue number. Ex: `12528-python-3.14-support`
+* Create a new branch in the main repo
+  with a name that starts with the twisted/twisted issue number.
+  Ex: `12528-python-3.14-support`
+  Automatic publishing to PyPI is only allowed from the main repo.
+  Releasing from a fork is not supported due to security restrictions.
 * Update the version inside setup.cfg. We now use calendar versioning.
 * Make the required code changes.
 * Create a pull request and make sure all checks pass.
