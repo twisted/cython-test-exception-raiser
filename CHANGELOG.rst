@@ -5,7 +5,9 @@ Changelog
 Unreleased
 ----------
 
-- No changes yet.
+- The ``raiser`` method is now exposed inside the ``cython_test_exception_raiser`` package.
+  This was a regression introduced in 25.11.1 in #15.
+  package again.
 
 
 2025.11.1 (2025-11-06)

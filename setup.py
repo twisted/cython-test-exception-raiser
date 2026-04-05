@@ -32,7 +32,7 @@ setup(
     ext_modules=cythonize(
         [
             Extension(
-                name="raiser",
+                name="cython_test_exception_raiser.raiser",
                 sources=["cython_test_exception_raiser/raiser.pyx"],
                 **py_limited_api_kwargs
             ),
