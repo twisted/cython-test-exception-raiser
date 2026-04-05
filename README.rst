@@ -36,6 +36,7 @@ Pre-release steps
   Automatic publishing to PyPI is only allowed from the main repo.
   Releasing from a fork is not supported due to security restrictions.
 * Update the version inside setup.cfg. We now use calendar versioning.
+* Update the version and date inside CHANGELOG.rst
 * Make the required code changes.
 * Create a pull request and make sure all checks pass.
   The wheels are generated as part of the PR checks,
