@@ -8,7 +8,7 @@ Unreleased
 - No changes yet.
 
 
-2025.4.1 (2025-04-05)
+2026.4.1 (2026-04-05)
 ----------------------
 
 - The ``raiser`` method is now exposed inside the ``cython_test_exception_raiser`` package.
